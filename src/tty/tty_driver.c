@@ -5,6 +5,8 @@
 #include <termios.h>
 #include <string.h>
 
+#include "tty_driver.h"
+
 #define TTY_DEVICE  "/dev/ttyS2"
 
 // TTY File Descriptor
