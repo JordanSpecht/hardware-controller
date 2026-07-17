@@ -25,6 +25,7 @@ $(TARGET): $(OBJECTS)
 # Compile any src/*.c to build/*.o
 # The '| $(BUILD_DIR)' ensures the directory exists first
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Create the object directory
