@@ -38,11 +38,15 @@ void tty_configure(void) {
         perror("Error setting terminal attributes");
     }
 
+    // Clear everything out
+    tty_write("\r");
+
     printf("Serial port /dev/ttyS2 opened successfully.\n");
 }
 
 void tty_write(char * msg) {
     write(tty_fd, msg, strlen(msg));
+    printf("W:%s",msg);
 }
 
 int tty_read(char * buf, int buf_size) {
