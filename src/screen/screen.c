@@ -2,7 +2,7 @@
 #include <assert.h>
 
 #include "screen.h"
-#include "tty.h"
+#include "tty_driver.h"
 
 #define SCREEN_MAX_LINE_LENGTH  (16U)
 
