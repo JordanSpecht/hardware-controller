@@ -1,10 +1,11 @@
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "tty_driver.h"
 #include "screen.h"
 
 int main() {
-    bool keep_alive = true;
+    // bool keep_alive = true;
 
     // Setup serial port to controller
     tty_configure();

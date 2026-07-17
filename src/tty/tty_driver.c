@@ -13,15 +13,19 @@
 static int tty_fd;
 
 void tty_configure(void) {
-    int tty_fd = open(TTY_DEVICE, O_RDWR | O_NOCTTY | O_SYNC);
+    tty_fd = open(TTY_DEVICE, O_RDWR | O_NOCTTY | O_SYNC);
     if (tty_fd < 0) {
         perror("Error opening /dev/ttyS2");
+        return;
     }
-    
+
     // Configure serial port (9600 baud, 8N1)
     struct termios tty;
     if (tcgetattr(tty_fd, &tty) != 0) {
         perror("Error getting terminal attributes");
+        close(tty_fd);
+        tty_fd = -1;
+        return;
     }
     cfsetospeed(&tty, B9600);
     cfsetispeed(&tty, B9600);
@@ -29,26 +33,35 @@ void tty_configure(void) {
     tty.c_cflag &= ~CSTOPB; // 1 stop bit
     tty.c_cflag &= ~CSIZE;
     tty.c_cflag |= CS8;     // 8 data bits
-    tty.c_cflag &= ~CRTSCTS; // No flow control
     tty.c_cflag |= CREAD | CLOCAL;
 
     // Set Read Timeout Behavior (VMIN and VTIME)
     tty.c_cc[VMIN] = 0;  // Minimum characters to read (0 = return immediately if no data)
     tty.c_cc[VTIME] = 5; // Timeout in deciseconds (5 = 0.5 second)
-    
+
     if (tcsetattr(tty_fd, TCSANOW, &tty) != 0) {
         perror("Error setting terminal attributes");
+        close(tty_fd);
+        tty_fd = -1;
+        return;
     }
 
     // Clear everything out
     tty_write("\r");
 
-    printf("Serial port /dev/ttyS2 opened successfully.\n");
+    fprintf(stderr, "Serial port /dev/ttyS2 opened successfully.\n");
 }
 
 void tty_write(char * msg) {
-    write(tty_fd, msg, strlen(msg));
-    printf("W:%s",msg);
+    if (tty_fd < 0) {
+        fprintf(stderr, "tty_write: serial device not configured\n");
+        return;
+    }
+
+    fprintf(stderr, "tty_write: %s\n", msg);
+    if (write(tty_fd, msg, strlen(msg)) < 0) {
+        perror("Error writing to serial port");
+    }
 }
 
 int tty_read(char * buf, int buf_size) {
