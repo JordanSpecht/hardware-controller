@@ -58,7 +58,7 @@ void tty_write(char * msg) {
         return;
     }
 
-    fprintf(stderr, "tty_write: %s\n", msg);
+    // fprintf(stderr, "tty_write: %s\n", msg);
     if (write(tty_fd, msg, strlen(msg)) < 0) {
         perror("Error writing to serial port");
     }
@@ -66,7 +66,7 @@ void tty_write(char * msg) {
     char buf[32];
     buf[31]= '\0';
     int n = read(tty_fd, buf, sizeof(buf) - 1);
-    fprintf(stderr, "tty_read: %s\n", buf);
+    // fprintf(stderr, "tty_read: %s\n", buf);
 }
 
 int tty_read(char * buf, int buf_size) {

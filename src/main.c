@@ -10,7 +10,10 @@ int main() {
     // Setup serial port to controller
     tty_configure();
 
+    // Display Screen Info
     screen_clear();
+    screen_display(SCREEN_LINE_1, " Jordan's NASty ");
+    screen_display(SCREEN_LINE_2, "     Server     ");
 
     // Shut it down
     tty_close();
