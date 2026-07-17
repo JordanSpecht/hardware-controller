@@ -1,7 +1,7 @@
 #include <stdbool.h>
 
 #include "tty_driver.h"
-#include "screeh.h"
+#include "screen.h"
 
 int main() {
     bool keep_alive = true;
@@ -11,7 +11,6 @@ int main() {
 
     screen_clear();
 
-    
     // Shut it down
     tty_close();
 
