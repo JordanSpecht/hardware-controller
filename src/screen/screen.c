@@ -28,7 +28,7 @@ void screen_display(screen_line_t line, char * msg) {
         tty_write(msg);
         tty_write("\r");
     } else {
-        tty_write(SCREEN_LINE_1_PREFIX);
+        tty_write(SCREEN_LINE_2_PREFIX);
         tty_write(msg);
         tty_write("\r");
     }
