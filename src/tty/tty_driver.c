@@ -42,7 +42,7 @@ void tty_configure(void) {
 }
 
 void tty_write(char * msg) {
-    write(tty_fd, msg strlen(msg));
+    write(tty_fd, msg, strlen(msg));
 }
 
 int tty_read(char * buf, int buf_size) {
